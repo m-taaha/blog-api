@@ -16,15 +16,12 @@ connectDB(); // connect to the database
 app.use(cors());
 app.use(express.json()); //parse JSON bodies
 
-app.use("/api/auth", authRoutes);
+app.use("/api/v1/user", authRoutes);
 
 app.get("/", (req, res) => {
   res.send(`Server is running`);
 });
 
-app.get("/twiter", (req, res) => {
-  res.send(`Checking`);
-});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
