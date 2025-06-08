@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 const isAuthenticated = async (req, res, next) => {
-  const token = req.body.cookies; // token from browser
+  const token = req.cookies.token; // token from browser
 
   if (!token) {
     return res.status(400).json({ message: `Unauthorized user` });
@@ -10,7 +10,7 @@ const isAuthenticated = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId).select(-password);
+    const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
       return res.status(401).json({ message: `Unauthorized, User not found` });
