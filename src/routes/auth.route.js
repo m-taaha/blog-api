@@ -2,6 +2,13 @@ import express from "express";
 import { registerUser } from "../controllers/register.controller.js";
 import { loginUser } from "../controllers/login.controller.js";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
+import {
+  createBlog,
+  getAllBlogs,
+  getBlogById,
+  updateBlog,
+  deleteBlogById,
+} from "../controllers/blog.controller.js";
 
 const router = express.Router();
 
@@ -16,5 +23,16 @@ router.get("/me", isAuthenticated, (req, res) => {
     user: req.user,
   });
 });
+
+//routes for crud blog
+
+//public routes
+router.get("/blogs", getAllBlogs);
+router.get("/blogs/:id", getBlogById);
+
+//protected routes
+router.post("/blogs", isAuthenticated, createBlog);
+router.put("/blogs/:id", isAuthenticated, updateBlog);
+router.delete("/blogs/:id", isAuthenticated, deleteBlogById);
 
 export default router;
